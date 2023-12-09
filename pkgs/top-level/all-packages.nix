@@ -7041,6 +7041,8 @@ with pkgs;
     inherit (darwin.apple_sdk_11_0.frameworks) Cocoa IOKit Kernel UserNotifications WebKit;
   };
 
+  netbird-dashboard = callPackage ../tools/networking/netbird/dashboard.nix { };
+
   netbird-ui = netbird.override {
     ui = true;
   };
