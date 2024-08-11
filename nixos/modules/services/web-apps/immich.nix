@@ -7,25 +7,7 @@
 let
   cfg = config.services.immich;
   isPostgresUnixSocket = lib.hasPrefix "/" cfg.database.host;
-  postgresEnv =
-    if isPostgresUnixSocket then
-      { DB_URL = "socket://${cfg.database.host}?dbname=${cfg.database.name}"; }
-    else
-      {
-        DB_HOSTNAME = cfg.database.host;
-        DB_PORT = toString cfg.database.port;
-        DB_DATABASE_NAME = cfg.database.name;
-        DB_USERNAME = cfg.database.user;
-      };
   isRedisUnixSocket = lib.hasPrefix "/" cfg.redis.host;
-  redisEnv =
-    if isRedisUnixSocket then
-      { REDIS_SOCKET = cfg.redis.host; }
-    else
-      {
-        REDIS_PORT = toString cfg.redis.port;
-        REDIS_HOSTNAME = cfg.redis.host;
-      };
 
   commonServiceConfig = {
     Type = "simple";
@@ -248,6 +230,26 @@ in
     networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ cfg.port ];
 
     services.immich.environment =
+      let
+        postgresEnv =
+          if isPostgresUnixSocket then
+            { DB_URL = "socket://${cfg.database.host}?dbname=${cfg.database.name}"; }
+          else
+            {
+              DB_HOSTNAME = cfg.database.host;
+              DB_PORT = toString cfg.database.port;
+              DB_DATABASE_NAME = cfg.database.name;
+              DB_USERNAME = cfg.database.user;
+            };
+        redisEnv =
+          if isRedisUnixSocket then
+            { REDIS_SOCKET = cfg.redis.host; }
+          else
+            {
+              REDIS_PORT = toString cfg.redis.port;
+              REDIS_HOSTNAME = cfg.redis.host;
+            };
+      in
       postgresEnv
       // redisEnv
       // {
