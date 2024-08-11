@@ -247,20 +247,21 @@ in
 
     networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ cfg.port ];
 
+    services.immich.environment =
+      postgresEnv
+      // redisEnv
+      // {
+        HOST = cfg.host;
+        IMMICH_PORT = toString cfg.port;
+        IMMICH_MEDIA_LOCATION = cfg.mediaLocation;
+        IMMICH_MACHINE_LEARNING_URL = "http://localhost:3003";
+      };
+
     systemd.services.immich-server = {
       description = "Immich backend server (Self-hosted photo and video backup solution)";
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
-      environment =
-        postgresEnv
-        // redisEnv
-        // {
-          HOST = cfg.host;
-          IMMICH_PORT = toString cfg.port;
-          IMMICH_MEDIA_LOCATION = cfg.mediaLocation;
-          IMMICH_MACHINE_LEARNING_URL = "http://localhost:3003";
-        }
-        // cfg.environment;
+      inherit (cfg) environment;
 
       serviceConfig = commonServiceConfig // {
         ExecStart = lib.getExe cfg.package;
