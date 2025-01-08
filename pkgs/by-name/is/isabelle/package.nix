@@ -9,7 +9,6 @@
 , veriT
 , vampire
 , eprover-ho
-, naproche
 , rlwrap
 , perl
 , procps
@@ -44,7 +43,7 @@ let
   };
 in stdenv.mkDerivation (finalAttrs: rec {
   pname = "isabelle";
-  version = "2024";
+  version = "2025-RC2";
 
   dirname = "Isabelle${version}";
 
@@ -60,7 +59,7 @@ in stdenv.mkDerivation (finalAttrs: rec {
     then
       fetchurl {
         url = "https://isabelle.in.tum.de/website-${dirname}/dist/${dirname}_linux.tar.gz";
-        hash = "sha256-YDqq+KvqNll687BlHSwWKobAoN1EIHZvR+VyQDljkmc=";
+        hash = "sha256-ovL5hG2TcNpTBcZzm/g9xtEPAKRbO7fijCtPDQycSN8=";
       }
     else
       fetchurl {
@@ -117,16 +116,12 @@ in stdenv.mkDerivation (finalAttrs: rec {
       ISABELLE_JDK_HOME=${java}
     EOF
 
-  '' + lib.optionalString stdenv.hostPlatform.isx86 ''
-    rm contrib/naproche-*/x86*/Naproche-SAD
-    ln -s ${naproche}/bin/Naproche-SAD contrib/naproche-*/x86*/
-  '' + ''
-
     echo ISABELLE_LINE_EDITOR=${rlwrap}/bin/rlwrap >>etc/settings
 
     for comp in contrib/jdk* contrib/polyml-* contrib/verit-* contrib/vampire-* contrib/e-*; do
       rm -rf $comp/${if stdenv.hostPlatform.isx86 then "x86" else "arm"}*
     done
+    rm -rf contrib/*/src/
 
     substituteInPlace lib/Tools/env \
       --replace-fail /usr/bin/env ${coreutils}/bin/env
