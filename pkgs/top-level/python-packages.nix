@@ -17959,6 +17959,8 @@ self: super: with self; {
 
   sqids = callPackage ../development/python-modules/sqids { };
 
+  sqlakeyset = callPackage ../development/python-modules/sqlakeyset { };
+
   sqlalchemy = callPackage ../development/python-modules/sqlalchemy { };
 
   sqlalchemy-citext = callPackage ../development/python-modules/sqlalchemy-citext { };
