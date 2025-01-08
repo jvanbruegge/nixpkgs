@@ -14289,6 +14289,8 @@ self: super: with self; {
     redis-server = pkgs.redis;
   };
 
+  rq-scheduler = callPackage ../development/python-modules/rq-scheduler { };
+
   rsa = callPackage ../development/python-modules/rsa { };
 
   rsskey = callPackage ../development/python-modules/rsskey { };
