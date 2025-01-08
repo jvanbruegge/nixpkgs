@@ -21229,6 +21229,8 @@ self: super: with self; {
 
   types-paramiko = callPackage ../development/python-modules/types-paramiko { };
 
+  types-passlib = callPackage ../development/python-modules/types-passlib { };
+
   types-pillow = callPackage ../development/python-modules/types-pillow { };
 
   types-protobuf = callPackage ../development/python-modules/types-protobuf { };
