@@ -17682,6 +17682,8 @@ self: super: with self; {
 
   types-mock = callPackage ../development/python-modules/types-mock { };
 
+  types-passlib = callPackage ../development/python-modules/types-passlib { };
+
   types-pillow = callPackage ../development/python-modules/types-pillow { };
 
   types-protobuf = callPackage ../development/python-modules/types-protobuf { };
