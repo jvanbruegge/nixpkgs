@@ -44,7 +44,7 @@ let
   };
 in stdenv.mkDerivation (finalAttrs: rec {
   pname = "isabelle";
-  version = "2024";
+  version = "2025-RC0";
 
   dirname = "Isabelle${version}";
 
@@ -59,8 +59,8 @@ in stdenv.mkDerivation (finalAttrs: rec {
     else if stdenv.hostPlatform.isx86
     then
       fetchurl {
-        url = "https://isabelle.in.tum.de/website-${dirname}/dist/${dirname}_linux.tar.gz";
-        hash = "sha256-YDqq+KvqNll687BlHSwWKobAoN1EIHZvR+VyQDljkmc=";
+        url = "https://isabelle.in.tum.de/website-${dirname}/${dirname}_linux.tar.gz";
+        hash = "sha256-H9ZGx0BEufWCBhmTDz4xNRAhIg/2BXg7dqnOzEDEnUc=";
       }
     else
       fetchurl {
@@ -116,11 +116,6 @@ in stdenv.mkDerivation (finalAttrs: rec {
       ISABELLE_JAVA_PLATFORM=${stdenv.system}
       ISABELLE_JDK_HOME=${java}
     EOF
-
-  '' + lib.optionalString stdenv.hostPlatform.isx86 ''
-    rm contrib/naproche-*/x86*/Naproche-SAD
-    ln -s ${naproche}/bin/Naproche-SAD contrib/naproche-*/x86*/
-  '' + ''
 
     echo ISABELLE_LINE_EDITOR=${rlwrap}/bin/rlwrap >>etc/settings
 
