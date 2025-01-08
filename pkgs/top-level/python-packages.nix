@@ -12340,6 +12340,8 @@ self: super: with self; {
 
   pyppeteer = callPackage ../development/python-modules/pyppeteer { };
 
+  pyppmd = callPackage ../development/python-modules/pyppmd { };
+
   pypresence = callPackage ../development/python-modules/pypresence { };
 
   pyprind = callPackage ../development/python-modules/pyprind { };
