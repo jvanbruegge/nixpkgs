@@ -1019,6 +1019,23 @@ let self = {
     };
   };
 
+  zip = {
+    name = "zip";
+    src = fetchFromGitHub {
+      owner = "evanmiller";
+      repo = "mod_zip";
+      rev = "8e65b82c82c7890f67a6107271c127e9881b6313";
+      hash = "sha256-2bUyGsLSaomzaijnAcHQV9TNSuV7Z3G9EUbrZzLG+mk=";
+    };
+
+    meta = {
+      description = "Streaming ZIP archiver for nginx";
+      homepage = "https://github.com/evanmiller/mod_zip";
+      license = with lib.licenses; [ bsd3 ];
+      maintainers = with lib.maintainers; [ jvanbruegge ];
+    };
+  };
+
   zstd = {
     name = "zstd";
     src = fetchFromGitHub {
