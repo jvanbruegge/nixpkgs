@@ -15,7 +15,17 @@
   pytest-cov
 }:
 
-buildPythonPackage rec {
+let
+  httpx_27 = httpx.overrideAttrs (_: rec {
+    version = "0.27.2";
+    src = fetchFromGitHub {
+      owner = "encode";
+      repo = "httpx";
+      tag = version;
+      hash = "sha256-N0ztVA/KMui9kKIovmOfNTwwrdvSimmNkSvvC+3gpck=";
+    };
+  });
+in buildPythonPackage rec {
   pname = "starlette-csrf";
   version = "3.0.0";
   pyproject = true;
@@ -40,7 +50,7 @@ buildPythonPackage rec {
   nativeCheckInputs = [
     pytestCheckHook
     asgi-lifespan
-    httpx
+    httpx_27
     ruff
     pytest-asyncio
     mypy
