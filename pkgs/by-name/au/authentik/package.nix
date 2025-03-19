@@ -15,13 +15,13 @@
 }:
 
 let
-  version = "2025.2.1";
+  version = "2025.2.2";
 
   src = fetchFromGitHub {
     owner = "goauthentik";
     repo = "authentik";
     rev = "version/${version}";
-    hash = "sha256-KZalpsM9rvki9GD+urf8idHOEnvBJtkSvE1b2b4KL/4=";
+    hash = "sha256-Uz7qldS44pxduLcYKf+cCq4WvjoslDR4PwRqivY/4uI=";
   };
 
   meta = with lib; {
