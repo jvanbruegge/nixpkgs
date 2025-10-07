@@ -14164,6 +14164,8 @@ with pkgs;
     ocaml = ocaml-ng.ocamlPackages_4_14_unsafe_string.ocaml;
   };
 
+  epkowa-plugins = recurseIntoAttrs (callPackage ../by-name/ep/epkowa/plugins.nix { });
+
   eprover-ho = eprover.override { enableHO = true; };
 
   giac-with-xcas = giac.override { enableGUI = true; };
