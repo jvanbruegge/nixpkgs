@@ -21142,6 +21142,8 @@ self: super: with self; {
 
   zipfile2 = callPackage ../development/python-modules/zipfile2 { };
 
+  zipfile-inflate64 = callPackage ../development/python-modules/zipfile-inflate64 { };
+
   zipp = callPackage ../development/python-modules/zipp { };
 
   zipstream-ng = callPackage ../development/python-modules/zipstream-ng { };
