@@ -5254,6 +5254,8 @@ self: super: with self; {
 
   fastapi-mcp = callPackage ../development/python-modules/fastapi-mcp { };
 
+  fastapi-pagination = callPackage ../development/python-modules/fastapi-pagination { };
+
   fastapi-sso = callPackage ../development/python-modules/fastapi-sso { };
 
   fastavro = callPackage ../development/python-modules/fastavro { };
