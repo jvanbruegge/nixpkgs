@@ -12,13 +12,13 @@
 }:
 
 let
-  version = "4.4.1";
+  version = "4.5.0";
 
   src = fetchFromGitHub {
     owner = "rommapp";
     repo = "romm";
     tag = version;
-    hash = "sha256-0xcGd0z4uNCFbqo6xiRqde83g2Ns1NZBB6CzfqZRjVU=";
+    hash = "sha256-fh1RyCbkZRtrkfqiTAwTJL9mvQOBFu9z79NL6mvKwRQ=";
   };
 
   RAHasher = stdenv.mkDerivation rec {
@@ -78,7 +78,7 @@ let
     inherit version;
     src = src + "/frontend";
 
-    npmDepsHash = "sha256-bFT9lDeIyMzICXGE7TY+vDVp450xVNF5/bPUEVsBMws=";
+    npmDepsHash = "sha256-ytbH58i1D63Z73tG4WLSDsLjscjSRjWg0yqOrtXhluo=";
 
     installPhase = ''
       cp -r dist $out/
