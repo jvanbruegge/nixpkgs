@@ -12734,6 +12734,10 @@ self: super: with self; {
     callPackage ../development/python-modules/opentelemetry-instrumentation-sqlite3
       { };
 
+  opentelemetry-instrumentation-structlog =
+    callPackage ../development/python-modules/opentelemetry-instrumentation-structlog
+      { };
+
   opentelemetry-instrumentation-system-metrics =
     callPackage ../development/python-modules/opentelemetry-instrumentation-system-metrics
       { };
