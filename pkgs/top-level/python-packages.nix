@@ -12758,6 +12758,10 @@ self: super: with self; {
     callPackage ../development/python-modules/opentelemetry-propagator-aws-xray
       { };
 
+  opentelemetry-propagator-b3 =
+    callPackage ../development/python-modules/opentelemetry-propagator-b3
+      { };
+
   opentelemetry-proto = callPackage ../development/python-modules/opentelemetry-proto { };
 
   opentelemetry-resourcedetector-gcp =
