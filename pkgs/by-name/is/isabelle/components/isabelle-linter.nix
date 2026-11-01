@@ -25,7 +25,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   '';
 
   installPhase = ''
-    dir=$out/share/Isabelle${isabelle.version}/contrib/${finalAttrs.pname}-${finalAttrs.version}
+    dir=$out/${isabelle.homeDir}/contrib/${finalAttrs.pname}-${finalAttrs.version}
     mkdir -p $dir
     cp -r * $dir/
   '';

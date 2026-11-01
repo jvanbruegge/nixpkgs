@@ -304,6 +304,9 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   passthru = {
+    homeDir =
+      "share/${finalAttrs.dirname}"
+      + lib.optionalString stdenv.hostPlatform.isDarwin "/Contents/Resources";
     tests.linter = callPackage ./tests/linter.nix { isabelle = finalAttrs.finalPackage; };
     inherit platform;
     vampire = vampire';
@@ -313,7 +316,7 @@ stdenv.mkDerivation (finalAttrs: {
       f:
       let
         isabelle = finalAttrs.finalPackage;
-        base = "$out/share/${isabelle.dirname}";
+        base = "$out/${isabelle.homeDir}";
         components = f isabelle-components;
       in
       symlinkJoin {
@@ -325,9 +328,9 @@ stdenv.mkDerivation (finalAttrs: {
 
           cd ${base}
           rm bin/*
-          cp ${isabelle}/share/${isabelle.dirname}/bin/* bin/
+          cp ${isabelle}/${isabelle.homeDir}/bin/* bin/
           rm etc/components
-          cat ${isabelle}/share/${isabelle.dirname}/etc/components > etc/components
+          cat ${isabelle}/${isabelle.homeDir}/etc/components > etc/components
 
           export HOME=$TMP
           bin/isabelle install $out/bin
