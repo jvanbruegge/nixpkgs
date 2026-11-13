@@ -14,6 +14,7 @@
   eprover-ho,
   cvc5,
   csdp,
+  gmp,
   rlwrap,
   perl,
   procps,
@@ -203,10 +204,21 @@ stdenv.mkDerivation (finalAttrs: {
     rm -r heaps
   ''
   + lib.optionalString stdenv.hostPlatform.isLinux ''
-    for f in contrib/*/${platform}/{z3,nunchaku,SPASS,zipperposition}; do
-      patchelf --set-interpreter $(cat ${stdenv.cc}/nix-support/dynamic-linker) "$f"${lib.optionalString stdenv.hostPlatform.isAarch64 " || true"}
+    for f in contrib/*/${platform}/{z3,nunchaku,SPASS,zipperposition,opam,rsync,smbc}; do
+      if [ -f "$f" ]; then
+        patchelf --set-interpreter $(cat ${stdenv.cc}/nix-support/dynamic-linker) "$f"
+      fi
     done
     patchelf --set-interpreter $(cat ${stdenv.cc}/nix-support/dynamic-linker) contrib/bash_process-*/${platform}/bash_process
+
+    for f in contrib/naproche-*/${platform}/Naproche; do
+      if [ -f "$f" ]; then
+        patchelf \
+          --set-interpreter $(cat ${stdenv.cc}/nix-support/dynamic-linker) \
+          --set-rpath "${lib.getLib gmp}/lib" \
+          "$f"
+      fi
+    done
 
     ln -sf ${electron}/bin/electron contrib/vscodium-*/*/electron
     rm contrib/vscodium-*/*/*.so{,.*}
@@ -219,6 +231,12 @@ stdenv.mkDerivation (finalAttrs: {
           "${lib.getLib stdenv.cc.cc}/lib"
         ]
       }" $d/*.so
+      if [ -f "$d/plingeling" ]; then
+        patchelf \
+          --set-interpreter $(cat ${stdenv.cc}/nix-support/dynamic-linker) \
+          --set-rpath "${lib.getLib stdenv.cc.cc}/lib" \
+          "$d/plingeling"
+      fi
     done
   ''
   + lib.optionalString (stdenv.hostPlatform.system == "x86_64-linux") ''
