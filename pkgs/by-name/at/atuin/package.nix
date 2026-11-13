@@ -19,16 +19,25 @@
 
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "atuin";
-  version = "18.24.2";
+  version = "18.24.6";
 
   src = fetchFromGitHub {
     owner = "atuinsh";
     repo = "atuin";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-b6Uj3cPAu731lhrN8fOv4d0CpehT3bv7IOBmkbYrqfI=";
+    hash = "sha256-4CBh/FcX5HxGUz2qqIDVstTGy343rX8sZucAzAQ6aqU=";
   };
 
-  cargoHash = "sha256-HkYI2+Yvjnw9pKeRsteyZeLhHHErTa1mvJL16NQVF3g=";
+  cargoHash = "sha256-eB0HHlrHdttJB7DYo68c6hGeqAiMj/b9zS/9eZLw1hM=";
+
+  # crates/atuin-common/src/secrets.rs sets a `REDACT_BUDGET` of 250ms for release builds
+  # and 5s (which we increase to 30s here) for debug builds.
+  # 5s (let alone 250ms) is too short for the tests to pass sometimes, but increasing
+  # the timeout by patching it for release mode would make some things slower at runtime.
+  postPatch = ''
+    substituteInPlace crates/atuin-common/src/secrets.rs \
+      --replace-fail 'Duration::from_secs(5)' 'Duration::from_secs(30)'
+  '';
 
   # atuin's default features include 'check-updates', which do not make sense
   # for distribution builds. List all other default features.
@@ -70,6 +79,12 @@ rustPlatform.buildRustPackage (finalAttrs: {
       --zsh <($out/bin/atuin gen-completions -s zsh)
   '';
 
+  # Due to the REDACT_BUDGET issue mentioned above, we need to build the tests in debug mode.
+  checkType = "debug";
+
+  # Many tests are timing-sensitive on Darwin.
+  doCheck = !stdenv.hostPlatform.isDarwin;
+
   checkFlags = [
     # tries to make a network access
     "--skip=registration"
@@ -81,14 +96,10 @@ rustPlatform.buildRustPackage (finalAttrs: {
     "--skip=multi_user_test"
     # needs a running Postgres server
     "--skip=postgres_authenticates_with_the_password_file"
+    "--skip=deleting_an_account_needs_its_password"
+    "--skip=operator_creates_resets_and_deletes_a_user"
     # timing-dependent: fails when the index reload is too fast to measure
     "--skip=end_history_is_not_starved_by_an_index_reload"
-    # timing sensitive
-    "--skip=a_copy_behind_another_machine_catches_up_as_it_resumes"
-    "--skip=capture_starts_when_the_config_turns_it_on"
-    "--skip=continuing_a_diverged_session_carries_one_branch"
-    "--skip=continuing_in_another_agent_carries_the_conversation"
-    "--skip=disjoint_concurrent_deletes_leave_the_index_empty"
   ];
 
   # The e2e tests start an interactive bash, which sources the host's

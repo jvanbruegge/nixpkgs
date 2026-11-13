@@ -458,6 +458,10 @@
                   "file": "hooks/desktop-file-utils.section.md"
                 },
                 {
+                  "id": "desktop-to-darwin-bundle",
+                  "file": "hooks/desktop-to-darwin-bundle.md"
+                },
+                {
                   "id": "gdk-pixbuf",
                   "file": "hooks/gdk-pixbuf.section.md"
                 },
@@ -556,6 +560,10 @@
                 {
                   "id": "pkg-config",
                   "file": "hooks/pkg-config.section.md"
+                },
+                {
+                  "id": "pkgconfigcheckhook",
+                  "file": "hooks/pkgConfigCheckHook.section.md"
                 },
                 {
                   "id": "postgresql-test-hook",
