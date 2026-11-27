@@ -2449,6 +2449,8 @@ let
         };
       };
 
+      isabelle.isabelle = callPackage ./isabelle.isabelle { };
+
       jackmacwindows.vscode-computercraft = buildVscodeMarketplaceExtension {
         mktplcRef = {
           name = "vscode-computercraft";
